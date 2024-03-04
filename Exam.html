@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #ae00ff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    form {
+      width: 300px;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #000000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #datos {
+      margin-top: 20px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>FORMULARIO DE REGISTRO</h1>
+    <form id="registroForm">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Telefono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Correo Electronico:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="escuela">Escuela:</label>
+        <select id="escuela" name="escuela" required>
+          <option value="">Selecciona una escuela</option>
+          <option value="Cecyte">Cecyte</option>
+          <option value="Conalep">Conalep</option>
+          <option value="Cetmar">Cetmar</option>
+          <option value="Enrique">Enrique</option>
+          <option value="Icep">Icep</option>
+          
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="carrera">Carrera:</label>
+        <select id="carrera" name="carrera" required>
+          <option value="">Selecciona una carrera</option>
+          <option value="Mecatronica">Mecatronica</option>
+          <option value="Software">Software</option>
+          <option value="Negocios">Negocios</option>
+          <option value="Idiomas">Idiomas</option>
+          <option value="Arquitectura">Arquitectura</option>
+          <option value="Derecho">Derecho</option>
+        </select>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+    <div id="datos"></div>
+  </div>
+
+  <script>
+    document.getElementById('registroForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var nombre = document.getElementById('nombre').value;
+      var telefono = document.getElementById('telefono').value;
+      var email = document.getElementById('email').value;
+      var escuela = document.getElementById('escuela').value;
+      var carrera = document.getElementById('carrera').value;
+      var datos = {
+        nombre: nombre,
+        telefono: telefono,
+        email: email,
+        escuela: escuela,
+        carrera: carrera
+      };
+      localStorage.removeItem('datos');
+      var datosArray = [];
+      datosArray.push(datos);
+      localStorage.setItem('datos', JSON.stringify(datosArray));
+      mostrarDatos();
+    });
+
+    function mostrarDatos() {
+      var datosArray = JSON.parse(localStorage.getItem('datos')) || [];
+      var datosDiv = document.getElementById('datos');
+      datosDiv.innerHTML = '<h2>Datos:</h2>';
+      datosArray.forEach(function(datos, index) {
+        datosDiv.innerHTML += '<p><strong>Registro #' + (index + 1) + '</strong></p>' +
+                              '<p><strong>Nombre:</strong> ' + datos.nombre + '</p>' +
+                              '<p><strong>Teléfono:</strong> ' + datos.telefono + '</p>' +
+                              '<p><strong>Correo electrónico:</strong> ' + datos.email + '</p>' +
+                              '<p><strong>Escuela:</strong> ' + datos.escuela + '</p>' +
+                              '<p><strong>Carrera:</strong> ' + datos.carrera + '</p>';
+      });
+    }
+    mostrarDatos();
+  </script>
+</body>
+</html>
